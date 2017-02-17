@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">     
+<!--和接口路径和名称保持一致，MyBATIS会自动帮我们找到这个 Mapper-->  
+<mapper namespace="com.example.shiro.dao.IUserDao">  
+    <!--查找用户，我们和接口方法保持一致，并且配置传入参数为整数, 返回结果为User，User已经在配置文件中配置了上下文。-->  
+    <select id="findUser" parameterType="int" resultType="com.example.shiro.entity.User">    
+            <!--#{id}是MyBATIS的参数写法-->  
+            <![CDATA[  
+            select id, username, password, birthday, mobile, tel, email, note from t_user where id = #{id} 
+            ]]>    
+    </select>    
+</mapper>   

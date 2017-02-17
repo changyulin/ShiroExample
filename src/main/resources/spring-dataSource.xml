@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<description>dataSource配置</description>
+	<!-- 指定数据库配置文件地址. -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	<!-- 配置数据源 -->
+	<!-- 定义数据源Bean,使用C3P0连接池数据源实现 -->
+	<bean name="ssmDB" id="ssmDB" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<!-- 指定连接数据库的驱动 -->
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<!-- 指定连接数据库的URL -->
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<!-- 指定连接数据库的用户名 -->
+		<property name="user" value="${jdbc.username}" />
+		<!-- 指定连接数据库的密码 -->
+		<property name="password" value="${jdbc.password}" />
+		<!-- C3p0连接池的配置信息 -->
+		<!-- 指定连接池中保留的最大连接数. Default:15 -->
+		<property name="maxPoolSize" value="${cpool.maxPoolSize}" />
+		<!-- 指定连接池中保留的最小连接数 -->
+		<property name="minPoolSize" value="${cpool.minPoolSize}" />
+		<!-- 指定连接池的初始化连接数 取值应在minPoolSize 与 maxPoolSize 之间.Default:3 -->
+		<property name="initialPoolSize" value="${cpool.initialPoolSize}" />
+		<!-- 最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。 Default:0 -->
+		<property name="maxIdleTime" value="${cpool.maxIdleTime}" />
+		<!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数. Default:3 -->
+		<property name="acquireIncrement" value="${cpool.acquireIncrement}" />
+		<!--JDBC的标准,用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements属于单个connection而不是整个连接池所以设置这个参数需要考虑到多方面的因数.如果maxStatements与maxStatementsPerConnection均为0,则缓存被关闭。Default:0 -->
+		<property name="maxStatements" value="${cpool.maxStatements}" />
+		<!-- 每60秒检查所有连接池中的空闲连接.Default:0 -->
+		<property name="idleConnectionTestPeriod" value="${cpool.idleConnectionTestPeriod}" />
+		<!-- 定义在从数据库获取新连接失败后重复尝试的次数。 Default:30 -->
+		<property name="acquireRetryAttempts" value="${cpool.acquireRetryAttempts}" />
+		<!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效保留,并在下次调用getConnection()的时候继续尝试获取连接。如果设为true,那么在尝试获取连接失败后该数据源将申明已断开并永久关闭。Default:false -->
+		<property name="breakAfterAcquireFailure" value="${cpool.breakAfterAcquireFailure}" />
+		<!--跟性能消耗大请只在需要的时候是哟个它。如果设为true,那么在每个connection提交的时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable等提升连接测试的性能。Default:false -->
+		<property name="testConnectionOnCheckout" value="${cpool.testConnectionOnCheckout}" />
+		<!--连接关闭时默认将所有未提交的操作回滚。Default: false -->
+		<property name="autoCommitOnClose" value="${cpool.autoCommitOnClose}" />
+		<!--当连接池用完时客户端调用getConnection()后等待获取新连接的时间，超时后将抛出 SQLException,如设为0则无限期等待。单位毫秒。Default:0 -->
+		<property name="checkoutTimeout" value="${cpool.checkoutTimeout}" />
+		<!--c3p0将建一张名为Test的空表，并使用其自带的查询语句进行测试。如果定义了这个参数那么属性preferredTestQuery将被忽略。你不能在这张Test表上进行任何操作，它将只供c3p0测试使用。Default: 
+			null -->
+		<property name="automaticTestTable" value="${cpool.automaticTestTable}" />
+	</bean> 
+</beans>
